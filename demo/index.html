@@ -12,17 +12,12 @@
 <link rel="stylesheet" href="tv.css">
 <style>
   #stage { background: #000 url(img/play.jpg) center / cover no-repeat; }
-  #ticker { transition: opacity .4s, transform .4s; }
 </style>
 </head>
 <body>
 <!-- What the TV shows during a real touchdown: D'Andre Swift's 5-yard run, Bears at Seahawks, Monday night.
      The page runs as a loop on fantasytvapp.com (in the hero): his card and your scores count up as he scores. -->
 <div id="stage">
-  <div id="ticker" class="on"><span class="lbl">YOU'RE WATCHING</span><div class="items">
-    <span><b>8:31</b> CHI at SEA, Top game</span><span><b>8:29</b> CHI at SEA, D. Swift, 1st &amp; Goal at the SEA 5</span>
-    <span class="now"><b>Now</b> CHI at SEA · D. Swift <span data-n="swift"></span></span></div></div>
-
   <div id="lower">
     <div id="atTag">AUTOTUNE <b>ON</b><span class="k">▲</span></div>
     <div id="bug"><div class="in rzbeat">
@@ -123,21 +118,20 @@ function pop(html, color) {
 
 async function loop() {
   const rail = document.getElementById('rail'), swift = document.getElementById('swift'), bug = document.querySelector('#bug .in'),
-    down = document.getElementById('down'), ticker = document.getElementById('ticker'), td = document.getElementById('tdBanner');
+    down = document.getElementById('down'), td = document.getElementById('tdBanner');
   for (;;) {
     show(BEFORE);
     swift.classList.remove('td'); rail.classList.remove('td'); td.classList.remove('on');
-    bug.classList.add('rzbeat'); down.className = 'c dd cap rz'; down.textContent = '1st & Goal · SEA 5'; ticker.classList.add('on');
+    bug.classList.add('rzbeat'); down.className = 'c dd cap rz'; down.textContent = '1st & Goal · SEA 5';
     await wait(2600);
     // Touchdown: the banner, the bar flashes in Bears colours, his card lights up and everything counts up.
-    ticker.classList.remove('on');
     restart(td, 'on'); restart(rail, 'td'); swift.classList.add('td');
     bug.classList.remove('rzbeat'); down.className = 'c dd cap gold'; down.textContent = 'TOUCHDOWN';
     await roll(1600);
     await wait(2400);
     pop('<b class="pts">+4.1</b><span class="who">J. Jacobs <em>· 22-yd run</em></span><span class="ok">OK · WATCH</span>', '#203731');
     await wait(2800);
-    td.classList.remove('on'); ticker.classList.add('on');
+    td.classList.remove('on');
     await wait(3200);
   }
 }
