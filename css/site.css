@@ -36,6 +36,15 @@ header.hero .wrap { padding-block: 44px 40px; display: grid; gap: 16px; }
 .works i { color: var(--muted); }
 h1 { margin: 0; font: italic 800 clamp(42px, 8vw, 76px)/.95 var(--display); letter-spacing: .01em; text-wrap: balance; }
 h1 span { color: var(--red); }
+/* "YOUR": red caps over a hand-drawn play route, like the logo's, that draws itself in */
+h1 .you { position: relative; display: inline-block; text-transform: uppercase; padding-right: .06em; }
+h1 .you svg { position: absolute; left: -2%; width: 104%; top: 86%; overflow: visible; fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+h1 .you svg * { stroke-dasharray: 220; stroke-dashoffset: 220; animation: route 1s .35s cubic-bezier(.6,0,.3,1) forwards; }
+h1 .you svg path + path { animation-delay: 1.15s; animation-duration: .3s; }
+@keyframes route { to { stroke-dashoffset: 0; } }
+.hero h1 { margin-bottom: 14px; }
+.hero p.vs { font: italic 700 clamp(20px, 2.6vw, 26px)/1.25 var(--display); color: var(--ink); letter-spacing: .01em; }
+.hero p.vs b { color: var(--red); text-transform: uppercase; font-weight: 800; }
 .hero p { margin: 0; max-width: 62ch; color: #c6d2e5; font-size: 19px; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .shot { margin-top: 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
@@ -70,4 +79,4 @@ footer .wrap { padding-block: 22px 40px; color: var(--muted); font-size: 15px; d
 .prose p, .prose li { color: #c6d2e5; }
 @media (min-width: 900px) { nav .wrap { padding-block: 16px; } nav .logo img { height: 60px; } nav .links { gap: 26px; font-size: 17px; } }
 @media (max-width: 560px) { nav .links { gap: 12px; font-size: 13px; } nav .links .hide-sm { display: none; } }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } h1 .you svg * { stroke-dashoffset: 0; } }
