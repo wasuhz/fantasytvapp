@@ -52,6 +52,10 @@ h1 .you svg path + path { animation-delay: 1.15s; animation-duration: .3s; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .shot { margin-top: 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 figure.shot { margin-inline: 0; margin-bottom: 0; background: #000; }
+/* the hero's demo: wider than the page on a big screen, so the TV and its words read easily */
+@media (min-width: 1140px) {
+  .hero figure.shot { width: min(1440px, calc(100vw - 48px)); margin-left: calc((100% - min(1440px, calc(100vw - 48px))) / 2); }
+}
 .shot iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; pointer-events: none; }
 /* phones: the tour's current step under the demo, readable (filled in by the demo) */
 .tourstep { display: none; padding: 14px 16px 16px; background: var(--panel); border-top: 1px solid var(--line); }
