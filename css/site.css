@@ -50,6 +50,15 @@ h1 .you svg path + path { animation-delay: 1.15s; animation-duration: .3s; }
 .shot { margin-top: 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 figure.shot { margin-inline: 0; margin-bottom: 0; background: #000; }
 .shot iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; pointer-events: none; }
+/* phones: the tour's current step under the demo, readable (filled in by the demo) */
+.tourstep { display: none; padding: 14px 16px 16px; background: var(--panel); border-top: 1px solid var(--line); }
+.tourstep .top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.tourstep .key { font: 800 18px/1 var(--display); background: var(--red); color: #fff; padding: 6px 10px; border-radius: 8px; }
+.tourstep .key:empty { display: none; }
+.tourstep .n { margin-left: auto; font: 700 14px/1 var(--display); color: var(--muted); letter-spacing: .08em; }
+.tourstep b { display: block; font: italic 800 22px/1.1 var(--display); }
+.tourstep p { margin: 6px 0 0; color: #c6d2e5; font-size: 16px; }
+@media (max-width: 700px) { #remote-tour .tourstep:not(:empty) { display: block; } #remote-tour figcaption { display: none; } }
 .shot figcaption { padding: 8px 14px; font-size: 14px; color: var(--muted); background: var(--panel); border-top: 1px solid var(--line); }
 
 main .wrap { padding-block: 36px 60px; display: grid; gap: 44px; }

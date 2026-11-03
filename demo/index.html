@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="tv.css">
 <style>
   #stage { background: #000 url(img/play.jpg) center / cover no-repeat; }
+  /* tour mode: the remote's OK key lights up as each step goes by */
+  #tour .nav b { display: inline-block; transition: transform .15s, background .15s; border-radius: 8px; padding: 2px 6px; margin-left: -6px; }
+  #tour .nav b.press { transform: scale(1.25); background: var(--cyan); color: #fff; }
+  #tour .spot { transition: left .35s, top .35s, width .35s, height .35s; }
 </style>
 </head>
 <body>
@@ -72,8 +76,13 @@
   <div id="tdBanner" style="--team:#0b162a; --team2:#c83803"><i class="s1"></i><i class="s2"></i><div class="in">
     <img src="https://a.espncdn.com/i/headshots/nfl/players/full/4259545.png" alt="">
     <div class="tx"><b>TOUCHDOWN</b><span>D. Swift <em>+6.5</em></span></div></div></div>
+  <div id="radar"><header><span class="mk"></span>ALL GAMES<span class="n">4 LIVE</span></header><div class="list"></div>
+    <footer><div class="qr" id="qr"></div><div class="keys"><span><b>OK</b> watch this game</span><span><b>▶</b> heart it<i class="why">AutoTune favors it in close calls</i></span><span><b>Back</b> close</span><span class="pair">Scan: your phone is the remote</span></div></footer></div>
   <div id="pops"></div>
+  <div id="tour"><i class="spot"></i><div class="tcard"><div class="top"><span class="key"></span><span class="n"></span></div><h3></h3><p></p>
+    <div class="nav"><span></span><span><b>Back</b> skip the tour</span></div></div></div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 // The stage is the TV's 1920×1080 screen, scaled to this frame.
 const stage = document.getElementById('stage');
@@ -135,7 +144,96 @@ async function loop() {
     await wait(3200);
   }
 }
-if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+// ---- Tour mode (demo/?tour): the TV's first-launch remote tour, stepping on its own as if you pressed OK.
+// The steps are copied from TOUR in web/js/tv.js: keep them in step.
+const TOUR = [
+  { title: 'Welcome to FantasyTV', text: 'A quick tour of your remote. Press OK for the next tip, or Back to skip the tour.' },
+  { key: '▲', target: '#atTag', title: 'Up: AutoTune on / off',
+    text: 'AutoTune switches to the game that matters most to your lineup. Press Up to stay where you are; Up again turns it back on. Before a switch, a 5 second countdown shows: OK or Back cancels it.' },
+  { key: '▼', target: '#radar', radar: true, right: true, title: 'Down: every game',
+    text: 'All the live games, yours first. Up and Down move, OK watches a game, ▶ hearts it (AutoTune favors hearted games in close calls), Back closes the list. A game you pick stays on for 45 seconds (less if it goes to a commercial), then AutoTune takes over again. To stay on it, turn AutoTune off with Up.' },
+  { key: '◀ ▶', target: '#bug .in', title: 'Left: rewind · Right: live',
+    text: 'Left jumps back 10 seconds in the game you\'re watching (again for more, up to a minute). Right goes back to live. Only the game on screen can be rewound: FantasyTV keeps its last minute from when you tuned in.' },
+  { key: 'OK', target: '#pops .demo', demo: 1, title: 'OK on a popup',
+    text: 'When your players score in another game, a popup slides in: OK takes you to that game, live (other games can\'t be rewound). A touchdown in the game you\'re watching gets its moment on screen.' },
+  { key: '▲ ▼', target: '#pops .demo', demo: 3, title: 'Several popups? Pick one',
+    text: 'With more than one up, Up and Down move the white outline. OK acts on the outlined one.' },
+  { target: '#rail', title: 'Your players and matchups',
+    text: 'A card glows when your starter scores, and a touchdown pops his photo out. On the right: each league\'s score and your chance to win.' },
+  { key: '📱', qr: true, title: 'Your phone is the remote',
+    text: 'Scan this code with your phone: settings, the channel for each game, rewind and more. It\'s also at the bottom of the game list (Down). Enjoy the games!' },
+];
+const HEART = on => `<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.2 1.7-2 3.2-3.2 5.3-3.2 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="${on ? '#ff4d57' : 'none'}" stroke="${on ? '#ff4d57' : 'currentColor'}" stroke-width="1.8"/></svg>`;
+const bars = n => `<span class="bars s${n}"><i></i><i></i><i></i><i></i><i></i></span>`;
+// The game list, as the TV draws it: the game on screen first, then the rest of your games.
+const RADAR = [
+  { cls: 'cur focus', sig: 5, a: 'CHI', sc: '20–17', h: 'SEA', fav: true, sub: 'Q4 8:28 · 1st &amp; Goal at SEA 5<span class="tag red">Red zone · CHI</span>',
+    pl: [['D. Swift', 'RB', 'rz', 'Red zone', '11.2'], ['C. Williams', 'QB', 'on', 'On field', '14.6']], ch: 'ESPN HD' },
+  { cls: '', sig: 3, a: 'GB', sc: '17–10', h: 'CAR', sub: 'Q3 2:41 · 2nd &amp; 6 at CAR 38', pl: [['J. Jacobs', 'RB', 'on', 'On field', '19.3']], ch: 'FOX 5' },
+  { cls: '', sig: 2, a: 'BAL', sc: '21–14', h: 'BUF', sub: 'Q3 9:02 · 1st &amp; 10 at BAL 25', pl: [['Z. Flowers', 'WR', 'muted', 'Off field', '8.4']], ch: 'CBS 11' },
+  { cls: '', sig: 2, a: 'ATL', sc: '10–13', h: 'TB', sub: 'Halftime', pl: [['B. Robinson', 'RB', 'muted', 'Off field', '12.7']], ch: 'FOX 2' },
+];
+function drawRadar() {
+  document.querySelector('#radar .list').innerHTML = RADAR.map(g => `<div class="rg ${g.cls}">
+    <div class="top">${bars(g.sig)}<span>${g.a}</span><span class="sc">${g.sc}</span><span>${g.h}</span>${HEART(g.fav)}</div>
+    <div class="sub">${g.sub}</div>
+    ${g.pl.map(([n, pos, c, st, p]) => `<div class="pl"><span>${n} <span class="muted">${pos}</span></span><span><span class="${c}">${st}</span> ${p}</span></div>`).join('')}
+    <div class="ch">▶ ${g.ch}</div></div>`).join('');
+  if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://fantasytvapp.com/remote', width: 180, height: 180, colorDark: '#000', colorLight: '#fff' });
+}
+function showStep(i) {
+  const s = TOUR[i], t = document.getElementById('tour'), card = t.querySelector('.tcard');
+  for (const d of document.querySelectorAll('#pops .demo')) d.remove();
+  document.getElementById('radar').classList.toggle('on', !!s.radar);
+  t.querySelector('.key').textContent = s.key || '';
+  t.querySelector('.n').textContent = `${i + 1} / ${TOUR.length}`;
+  t.querySelector('h3').textContent = s.title;
+  t.querySelector('p').textContent = s.text;
+  t.querySelector('.nav span').innerHTML = `<b>OK</b> ${i === TOUR.length - 1 ? 'done' : 'next'}`;
+  card.classList.toggle('right', !!s.right);
+  // The page around this one shows the step in readable type on phones, where the TV's card is tiny.
+  if (parent !== window) parent.postMessage({ ftvTour: { n: `${i + 1} / ${TOUR.length}`, key: s.key || '', title: s.title, text: s.text } }, '*');
+  const old = card.querySelector('.tqr'); if (old) old.remove();
+  const qr = s.qr && document.querySelector('#qr canvas, #qr img');
+  if (qr) card.querySelector('p').insertAdjacentHTML('afterend', `<div class="tqr"><img src="${qr.tagName === 'CANVAS' ? qr.toDataURL() : qr.src}" alt=""><span>Scan with your phone camera (same Wi-Fi)</span></div>`);
+  const samples = [['TD +6.8', 'Your WR', '12-yd catch, TOUCHDOWN', 'OK · WATCH'], ['+1.4', 'Your RB', '9-yd run'], ['+0.6', 'Your QB', '14-yd pass']];
+  for (let j = (s.demo || 0) - 1; j >= 0; j--) {
+    const [p, who, what, ok] = samples[j], el = document.createElement('div');
+    el.className = `pop on demo ${j === 0 ? 'target' : ''}`;
+    el.style.setProperty('--team', 'var(--cyan)');
+    el.innerHTML = `<b class="pts">${p}</b><span class="who">${who} <em>· ${what}</em></span>${j === 0 ? `<span class="ok">${ok}</span>` : ''}`;
+    document.getElementById('pops').prepend(el);
+  }
+  setTimeout(() => {
+    const rs = s.target ? [...document.querySelectorAll(s.target)].map(e => e.getBoundingClientRect()).filter(b => b.width && b.height) : [];
+    const spot = t.querySelector('.spot');
+    t.classList.toggle('spotted', rs.length > 0); t.classList.toggle('nospot', !rs.length);
+    if (!rs.length) return;
+    const st = stage.getBoundingClientRect(), k = st.width / 1920, pad = 10;
+    const l = Math.min(...rs.map(b => b.left)), tp = Math.min(...rs.map(b => b.top)), r = Math.max(...rs.map(b => b.right)), bt = Math.max(...rs.map(b => b.bottom));
+    Object.assign(spot.style, { left: `${(l - st.left) / k - pad}px`, top: `${(tp - st.top) / k - pad}px`, width: `${(r - l) / k + pad * 2}px`, height: `${(bt - tp) / k + pad * 2}px` });
+  }, s.radar ? 450 : 30);
+}
+async function tourLoop() {
+  show(BEFORE); drawRadar();
+  const t = document.getElementById('tour'), ok = () => t.querySelector('.nav b');
+  for (;;) {
+    t.classList.add('on');
+    for (let i = 0; i < TOUR.length; i++) {
+      showStep(i);
+      await wait(2600 + TOUR[i].text.length * 28);   // time to read it
+      ok().classList.add('press'); await wait(350); ok().classList.remove('press');   // "OK" is pressed
+    }
+    t.classList.remove('on'); document.getElementById('radar').classList.remove('on');
+    for (const d of document.querySelectorAll('#pops .demo')) d.remove();
+    await wait(2500);
+  }
+}
+
+if (location.search.includes('tour')) {
+  document.documentElement.classList.add('tourmode');
+  tourLoop();
+} else if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   // No animation: just after the touchdown.
   show(AFTER); document.getElementById('swift').classList.add('td');
   document.querySelector('#bug .in').classList.remove('rzbeat');
