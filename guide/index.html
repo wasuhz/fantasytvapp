@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FantasyTV Remote Guide</title>
+<meta name="description" content="How to use FantasyTV: AutoTune on and off, every game, hearts, overlays, rewind, popups, and your phone as the remote.">
+<meta name="theme-color" content="#000c1d">
+<meta property="og:title" content="FantasyTV Remote Guide">
+<meta property="og:description" content="Everything your remote does, on one page.">
+<meta property="og:image" content="https://fantasytvapp.com/img/remote-guide.png">
+<meta property="og:url" content="https://fantasytvapp.com/guide">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/img/icon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,700;1,800&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/css/site.css">
+<style>
+  /* The remote guide: the same content as brand/FantasyTV-Remote-Guide.png, as a page that fits any screen. */
+  .guide { display: grid; gap: 14px; max-width: 860px; margin: 0 auto; }
+  .guide h2 { font: italic 800 20px/1 'Saira Condensed', sans-serif; letter-spacing: .14em; color: var(--muted); margin: 22px 0 2px; }
+  .gr { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: start; padding: 18px 20px; border-radius: 16px;
+    background: rgba(255,255,255,.035); border: 1px solid rgba(120,160,220,.22); }
+  .gk { height: 64px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: #0c2f61;
+    border: 2px solid #2a5a9c; box-shadow: inset 0 -5px 0 rgba(0,0,0,.28); font: 800 34px/1 'Saira Condensed', sans-serif; color: #fff; }
+  .gk.ok { background: #e8202e; border-color: #ff6a73; font-style: italic; }
+  .gr h3 { font: italic 800 26px/1.1 'Saira Condensed', sans-serif; margin: 2px 0 6px; }
+  .gr p { margin: 0; line-height: 1.45; }
+  .gr p + p, .gr .chips, .gr .pops { margin-top: 10px; }
+  .tip { color: #5fe08c; font-weight: 600; }
+  .chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+  .chips div { padding: 9px 12px; border-radius: 10px; background: #0c2f61; border: 1px solid #2a5a9c; font-size: 15px; line-height: 1.35; color: #c9d6ea; }
+  .chips b { display: block; font: italic 800 19px/1.1 'Saira Condensed', sans-serif; letter-spacing: .04em; color: #fff; }
+  .pops { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 12px; }
+  .pop { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 9px; transform: skewX(-8deg); background: #0b2a57;
+    border-left: 5px solid #3b82f6; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; }
+  .pop > * { transform: skewX(8deg); }
+  .pop .pts { font: italic 800 20px/1 'Saira Condensed', sans-serif; }
+  .tag { padding: 1px 7px; border-radius: 4px; font: italic 800 12px/1.4 'Saira Condensed', sans-serif; letter-spacing: .08em; color: #fff; }
+  .pop.opp { background: #2a0d18; border-color: #e8202e; } .pop.opp .pts { color: #ff4d57; } .pop.opp .tag { background: #e8202e; }
+  .pop.bench { opacity: .85; border-color: #5b6478; } .pop.bench .pts { color: #b8c2d6; } .pop.bench .tag { background: #5b6478; }
+  .pop.inj { background: #fff; color: #1a1f2b; border-color: #e11d2e; } .pop.inj .pts { color: #d0101f; }
+  .save { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin: 28px auto 6px; max-width: 860px; text-align: center; }
+  .save img { width: 100%; max-width: 420px; border-radius: 14px; border: 1px solid rgba(120,160,220,.22); }
+  @media (max-width: 560px) { .gr { grid-template-columns: 1fr; gap: 10px; padding: 16px; } .gk { width: 76px; height: 54px; font-size: 28px; } }
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/"><img src="/img/wordmark.png" alt="FantasyTV" width="180" height="30"></a>
+  <div class="links"><a href="/#install">Install</a><a href="/guide">Guide</a><a href="/remote">Remote</a></div></div></nav>
+<header class="hero"><div class="wrap"><div class="kicker">Remote guide</div><h1>Everything your remote does, on <span>one page</span>.</h1></div></header>
+<main><div class="wrap">
+  <div class="guide">
+    <h2>ON THE TV REMOTE</h2>
+    <div class="gr"><div class="gk">▲</div><div>
+      <h3>AutoTune on / off</h3>
+      <p>AutoTune switches to the game that matters most to your lineup. Press <b>Up</b> to stay on this game; <b>Up</b> again turns it back on. Before a switch, a <b>5&#8209;second countdown</b> shows: <b>OK</b> or <b>Back</b> cancels it.</p>
+    </div></div>
+
+    <div class="gr"><div class="gk">▼</div><div>
+      <h3>Every game</h3>
+      <p>All the live games, yours first. <b>Up/Down</b> move, <b>OK</b> watches one, <b>Back</b> closes. <b>▶ hearts a game</b>: AutoTune favors it in close calls and goes to it first during breaks.</p>
+      <p class="tip">A game you pick stays on for 45 seconds; to keep it, turn AutoTune off with ▲ (or Lock it on your phone).</p>
+    </div></div>
+
+    <div class="gr"><div class="gk ok">OK</div><div>
+      <h3>Hide the overlays</h3>
+      <p>The <b>On screen</b> row at the top of that list switches what sits over the game:</p>
+      <div class="chips"><div><b>Full</b>everything</div><div><b>Scores only</b>your leagues' scores, small popups</div><div><b>Clean</b>just the game, AutoTune stays put</div></div>
+    </div></div>
+
+    <div class="gr"><div class="gk">◀ ▶</div><div>
+      <h3>Rewind · back to live</h3>
+      <p><b>Left</b> jumps back 10 seconds (again for more, up to a minute) in the game you're watching. <b>Right</b> goes back to live.</p>
+    </div></div>
+
+    <div class="gr"><div class="gk ok">OK</div><div>
+      <h3>OK on a popup watches that game</h3>
+      <p>Several up? <b>Up/Down</b> pick one. What they mean:</p>
+      <div class="pops">
+        <div class="pop"><span class="pts">+6.8</span><span>Your starter scored</span></div>
+        <div class="pop opp"><span class="pts">RZ</span><span class="tag">OPPONENT</span><span>Their player</span></div>
+        <div class="pop bench"><span class="pts">+3.6</span><span class="tag">BENCH</span><span>Doesn't count this week</span></div>
+        <div class="pop inj"><span class="pts">INJURY</span><span>Your starter is hurt</span></div>
+      </div>
+    </div></div>
+
+    <h2>YOUR PHONE IS THE REMOTE</h2>
+    <div class="gr"><div class="gk" style="font-style:italic">QR</div><div>
+      <h3>Press ▼ Down on your TV remote</h3>
+      <p>The game list opens, and the <b>QR code is at the bottom of it</b>. Scan it with your phone's camera: same Wi-Fi as the TV, no app to install. After that, <a href="/remote">fantasytvapp.com/remote</a> opens your TV's remote straight away.</p>
+      <p class="tip">Add the page to your home screen to keep it one tap away.</p>
+      <div class="chips">
+        <div><b>♥ Heart</b>AutoTune favors that game</div>
+        <div><b>🔒 Lock</b>stay on this game</div>
+        <div><b>⛔ Skip</b>never tune it</div>
+        <div><b>NFL RedZone</b>in one tap</div>
+      </div>
+    </div></div>
+
+    <div class="gr"><div class="gk">⚙</div><div>
+      <h3>Settings: the gear on your phone</h3>
+      <p>Everything about the app is set from the phone and saved on your TV:</p>
+      <div class="chips">
+        <div><b>WATCH</b>AutoTune, overlays, stream delay &amp; clock sync, performance</div>
+        <div><b>ALERTS</b>Quiet · More · Everything, injuries, bench, opponents</div>
+        <div><b>CHANNELS</b>your IPTV login, the channel for each game</div>
+        <div><b>LEAGUES</b>Sleeper, ESPN and Yahoo leagues</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="save">
+    <img src="/img/remote-guide.png" alt="The FantasyTV remote guide as one image" width="1080" height="1920" loading="lazy">
+  </div>
+  <div class="save"><a class="btn primary" href="/img/remote-guide.png" download="FantasyTV-Remote-Guide.png">Save the guide as an image</a></div>
+</div></main>
+<footer><div class="wrap"><span>FantasyTV</span><a href="/">Home</a><a href="/privacy">Privacy</a></div></footer>
+</body>
+</html>
