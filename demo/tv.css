@@ -129,7 +129,9 @@
   #radar .list .more { text-align: center; font: 600 15px/1 var(--mono); color: var(--dim); padding: 4px; }
   #radar footer { padding: 16px 26px 24px; display: flex; gap: 20px; align-items: center; }
   #radar footer .keys { display: flex; flex-direction: column; gap: 9px; font: 700 30px/1.15 var(--mono); color: #fff; }   /* readable from the couch */
-  #radar footer .keys b { display: inline-block; min-width: 84px; color: var(--cyan); font-weight: 800; }
+  #radar footer .keys b { color: var(--cyan); font-weight: 800; }
+  #radar footer .keys span > b:first-child { display: inline-block; min-width: 84px; }
+  #radar footer .keys .alt { font-size: 22px; color: #b9c6da; }
   #radar footer .keys .pair { margin-top: 6px; font-size: 25px; color: #dfe6f2; }
   #radar footer .keys .why { display: block; margin: 3px 0 2px 84px; font: italic 600 20px/1.1 var(--mono); color: #b9c6da; }   /* what a heart does */
   #radar footer .qr { background: #fff; padding: 5px; border-radius: 12px; flex: none; }
