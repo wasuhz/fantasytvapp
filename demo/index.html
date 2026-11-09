@@ -36,6 +36,7 @@
     <div class="teams"></div><div class="why"></div><div class="secs mono">5.0</div><button class="cancel">CANCEL</button></div><div class="prog"><i></i></div></div>
   <div id="lower">
     <div id="atTag">AUTOTUNE <b>ON</b><span class="k">▲</span></div>
+    <div id="ovHint" class="on"><span class="k">▶</span>OVERLAY</div>
     <div id="bug"><div class="in rzbeat">
       <div class="drive rz" style="--team:#0b162a"><i style="width:100%"></i><b style="left:95%"></b></div>
       <div class="t" style="--team:#0b162a"><img src="https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png" alt="CHI"><span class="tr"><small>5-2</small><span class="tos"><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
@@ -270,11 +271,9 @@ const TOUR = [
     text: 'AutoTune switches to the game that matters most to your lineup. Press Up to stay where you are; Up again turns it back on. Before a switch, a 5 second countdown shows: OK or Back cancels it.' },
   { key: '▼', target: '#radar', radar: true, right: true, title: 'Down: every game',
     text: 'All the live games, yours first. Up and Down move, OK watches a game, ▶ (or OK twice) hearts it (AutoTune favors hearted games in close calls), Back closes the list. A game you pick stays on for 45 seconds (less if it goes to a commercial), then AutoTune takes over again. To stay on it, turn AutoTune off with Up.' },
-  { key: 'OK', target: '#radar .ovrow', radar: true, right: true, title: "Top of the list: On Screen Overlay",
-    text: "◀ ▶ or OK on the On Screen Overlay row switch what sits over the game. Full: everything. Scores only: just your leagues' scores, with small popups for your big plays (NFL RedZone switches to it by itself). Clean: nothing but the game, and AutoTune stays put. The phone remote has the same switch." },
-  { key: '◀ ▶', target: '#radar .mvrow', radar: true, right: true, title: 'Next row: Multiview, 2 or 4 games',    text: "Watch several games at once. ◀ ▶ choose 2 or 4 games, OK starts it with this game and the ones with the most of your starters. Arrows move the outline and the sound goes with it; OK on a window picks its game (or NFL RedZone), Back returns to one game. 2 games keep your scores above and below; 4 games put them in a card in the middle." },
-  { key: '◀ ▶', target: '#bug .in', title: 'Left: rewind · Right: live',
-    text: 'Left jumps back 10 seconds in the game you\'re watching (again for more, up to a minute). Right goes back to live. Only the game on screen can be rewound: FantasyTV keeps its last minute from when you tuned in.' },
+  { key: '◀ ▶', target: '#radar .mvrow', radar: true, right: true, title: 'Top of the list: Multiview, 2 or 4 games',    text: "Watch several games at once. ◀ ▶ choose 2 or 4 games, OK starts it with this game and the ones with the most of your starters. Arrows move the outline and the sound goes with it; OK on a window picks its game (or NFL RedZone), Back returns to one game. 2 games keep your scores above and below; 4 games put them in a card in the middle." },
+  { key: '◀ ▶', target: '#bug .in, #ovHint', title: 'Left: rewind · Right: live, or the overlay',
+    text: 'Left jumps back 10 seconds in the game you\'re watching (again for more, up to a minute). Right goes back to live; already live, Right switches the On Screen Overlay (Full, Scores only, Clean). Only the game on screen can be rewound: FantasyTV keeps its last minute from when you tuned in.' },
   { key: 'OK', target: '#pops .demo', demo: 1, title: 'OK on a popup',
     text: 'When your players score in another game, a popup slides in: OK takes you to that game, live (other games can\'t be rewound). A touchdown in the game you\'re watching gets its moment on screen.' },
   { key: '▲ ▼', target: '#pops .demo', demo: 3, title: 'Several popups? Pick one',
@@ -293,7 +292,7 @@ const RADAR = [
   { cls: '', sig: 2, a: 'ATL', sc: '10–13', h: 'TB', sub: 'Halftime', pl: [['B. Robinson', 'RB', 'muted', 'Off field', '12.7']], ch: 'FOX 2' },
 ];
 function drawRadar() {
-  document.querySelector('#radar .list').innerHTML = '<div class="rg viewrow ovrow"><div class="top"><span>On Screen Overlay</span><span class="vw">Full</span></div><div class="sub"><span class="on">Full</span> · Scores only · Clean</div></div><div class="rg viewrow mvrow"><div class="top"><span>Multiview</span><span class="vw">2 games</span></div><div class="sub"><span class="on">2 games</span> · 4 games</div></div>' + RADAR.map(g => `<div class="rg ${g.cls}">
+  document.querySelector('#radar .list').innerHTML = '<div class="rg viewrow mvrow"><div class="top"><span>Multiview</span><span class="vw">2 games</span></div><div class="sub"><span class="on">2 games</span> · 4 games</div></div>' + RADAR.map(g => `<div class="rg ${g.cls}">
     <div class="top">${bars(g.sig)}<span>${g.a}</span><span class="sc">${g.sc}</span><span>${g.h}</span>${HEART(g.fav)}</div>
     <div class="sub">${g.sub}</div>
     ${g.pl.map(([n, pos, c, st, p]) => `<div class="pl"><span>${n} <span class="muted">${pos}</span></span><span><span class="${c}">${st}</span> ${p}</span></div>`).join('')}

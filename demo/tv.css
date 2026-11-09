@@ -66,6 +66,11 @@
     background: var(--panel); border: 1px solid var(--cyan-dim); border-radius: 18px; font: 600 18px/1 var(--mono); color: var(--muted); letter-spacing: .06em; }
   #atTag b { color: var(--cyan); font-weight: 700; }
   #atTag .k { font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 9px; padding: 3px 6px; }
+  #ovHint { position: absolute; bottom: 165px; left: 214px; display: none; align-items: center; gap: 7px; padding: 6px 11px 6px 7px;
+    background: rgba(9,20,44,.72); border: 1px solid var(--line); border-radius: 9px; transform: skewX(-12deg);
+    font: italic 700 14px/1 var(--mono); letter-spacing: .08em; color: var(--muted); }
+  #ovHint.on { display: flex; }
+  #ovHint .k { font-size: 11px; color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 3px 5px; font-style: normal; }
   #atTag.off { border-color: var(--amber); }
   #atTag.off b { color: var(--amber); }
   #bug { display: flex; justify-content: center; margin-bottom: -2px; }
